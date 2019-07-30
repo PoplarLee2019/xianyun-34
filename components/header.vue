@@ -15,7 +15,8 @@
         </el-row>
         <!-- 登录注册 -->
         <div class="login">
-          <nuxt-link to="/user/login">登录 /</nuxt-link>
+          <nuxt-link to="/user/login">登录</nuxt-link>
+          <i>|</i>
           <nuxt-link to="/accounts/register">注册</nuxt-link>
         </div>
         <!-- 登录后 -->
@@ -86,7 +87,11 @@ header {
         &:hover {
           color: #409eff;
           text-decoration: underline;
+        }
       }
+      i {
+        font-size: 14px;
+        color: #666;
       }
     }
   }
