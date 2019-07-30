@@ -1,8 +1,6 @@
 <template>
   <div class="container">
     <!-- 幻灯片 -->
-    <!-- interval: 间隔时间
-    arrow：出现箭头-->
     <el-carousel :interval="5000" arrow="always">
       <el-carousel-item v-for="(item, index) in banners" :key="index">
         <div
@@ -15,7 +13,7 @@
       </el-carousel-item>
     </el-carousel>
 
-    <!-- 搜索框，真好看 -->
+    <!-- 搜索框 -->
     <div class="banner-content">
       <div class="search-bar">
         <!-- tab栏 -->
@@ -41,10 +39,6 @@
 </template>
 
 <script>
-// nuxt默认把 axios 添加到原型
-// import axios from "axios";
-// Vue.prototype.$axios = axios;
-
 export default {
   data() {
     return {
