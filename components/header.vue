@@ -14,30 +14,34 @@
           <nuxt-link to="/air">国内机票</nuxt-link>
         </el-row>
         <!-- 登录注册 -->
-        <div class="login">
+        <div v-if="false" class="login">
           <nuxt-link to="/user/login">登录</nuxt-link>
           <i>|</i>
           <nuxt-link to="/accounts/register">注册</nuxt-link>
         </div>
         <!-- 登录后 -->
-        <!-- <div>
+        <div>
           <el-dropdown>
             <span class="el-dropdown-link">
-              <img src="http://157.122.54.189:9093/images/logo.jpg" alt />
-              Lee
+              <img src="http://157.122.54.189:9095/assets/images/avatar.jpg" alt />
+               {{$store.state.user.userInfo.user.nickname}}
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人中心</el-dropdown-item>
               <el-dropdown-item>退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </div>-->
+        </div>
       </el-row>
     </div>
   </header>
 </template>
 <script>
-export default {};
+export default {
+  mounted(){
+        console.log( this.$store.state.user.userInfo.user.nickname)
+    }
+};
 </script>
 <style lang="less" scoped>
 header {
@@ -93,6 +97,15 @@ header {
         font-size: 14px;
         color: #666;
       }
+    }
+  }
+  .el-dropdown-link {
+    img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 5px;
     }
   }
 }
