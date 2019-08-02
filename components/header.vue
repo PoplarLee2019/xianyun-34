@@ -17,7 +17,7 @@
         <div v-if="!$store.state.user.userInfo.token" class="login">
           <nuxt-link to="/user/login">登录</nuxt-link>
           <i>|</i>
-          <nuxt-link to="/">注册</nuxt-link>
+          <nuxt-link to="/user/login">注册</nuxt-link>
         </div>
         <!-- 登录后 -->
         <div v-else>

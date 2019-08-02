@@ -1,11 +1,11 @@
 <template>
-  <el-form :model="rigisterform" ref="form" :rules="rules" class="form">
+  <el-form :model="form" ref="form" :rules="rules" class="form">
     <el-form-item class="form-item" prop="username">
-      <el-input v-model="rigisterform.username" placeholder="用户名手机"></el-input>
+      <el-input v-model="form.username" placeholder="用户名手机"></el-input>
     </el-form-item>
 
     <el-form-item class="form-item" prop="captcha">
-      <el-input v-model="rigisterform.captcha" placeholder="验证码">
+      <el-input v-model="form.captcha" placeholder="验证码">
         <template slot="append">
           <el-button @click="handleSendCaptcha">发送验证码</el-button>
         </template>
@@ -13,15 +13,15 @@
     </el-form-item>
 
     <el-form-item class="form-item" prop="nickname">
-      <el-input v-model="rigisterform.nickname" placeholder="你的名字"></el-input>
+      <el-input v-model="form.nickname" placeholder="你的名字"></el-input>
     </el-form-item>
      
     <el-form-item class="form-item" prop="password">
-      <el-input v-model="rigisterform.password" placeholder="密码" type="password"></el-input>
+      <el-input v-model="form.password" placeholder="密码" type="password"></el-input>
     </el-form-item>
 
     <el-form-item class="form-item" prop="checkPassword">
-      <el-input v-model="rigisterform.checkPassword" placeholder="确认密码" type="password"></el-input>
+      <el-input v-model="form.checkPassword" placeholder="确认密码" type="password"></el-input>
     </el-form-item>
 
     <el-button class="submit" type="primary" @click="handleRegSubmit">注册</el-button>
@@ -47,7 +47,7 @@ export default {
 
     return {
       // 表单数据
-      rigisterform: {
+      form: {
         username: "",
         captcha: "", // 验证码
         nickname: "", // 昵称
@@ -75,15 +75,11 @@ export default {
       }
     };
   },
-  mounted(){
-    console.log(8888)
-    console.log(this.rigisterform.nickname)
-  },
   methods: {
     // 手机发送验证码
     handleSendCaptcha() {
       // 判断手机号码是否为空
-      if (!this.rigisterform.username) {
+      if (!this.form.username) {
         this.$message.warning("手机号码不能为空");
         return;
       }
@@ -92,7 +88,7 @@ export default {
         url: "/captchas",
         method: "POST",
         data: {
-          tel: this.rigisterform.username
+          tel: this.form.username
         }
       }).then(res => {
         const { code } = res.data;
@@ -108,7 +104,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           // ES6的标准语法，解构出特定的属性后，剩余的属性可以用... +变量名访问
-          const { checkPassword, ...props } = this.rigisterform;
+          const { checkPassword, ...props } = this.form;
 
           // 调用注册的接口
           this.$axios({

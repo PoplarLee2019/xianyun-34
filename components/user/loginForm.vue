@@ -41,8 +41,6 @@ export default {
     // 提交登录
     handleLoginSubmit() {
       this.$refs.form.validate(valid => {
-        console.log(valid);
-
         if (valid) {
           // 提交登录接口
           this.$axios({
