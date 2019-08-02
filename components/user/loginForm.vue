@@ -1,91 +1,86 @@
 <template>
-  <div class="container">
-    <!-- 主要内容 -->
-    <el-row type="flex" justify="center" align="middle" class="main">
-      <div class="form-wrapper">
-        <!-- 表单头部tab -->
-        <el-row type="flex" justify="center" class="tabs">
-          <span
-            :class="{active: currentTab === index}"
-            v-for="(item, index) in [`登录`, `注册`]"
-            :key="index"
-            @click="handleChangeTab(index)"
-          >{{item}}</span>
-        </el-row>
+  <!-- model: 表单数据对象 -->
+  <!-- ref：获取dom元素 -->
+  <!-- rules：表单校验规则 -->
+  <el-form :model="form" ref="form" :rules="rules" class="form">
+    <el-form-item class="form-item" prop="username">
+      <el-input v-model="form.username" placeholder="用户名/手机"></el-input>
+    </el-form-item>
 
-        <!-- 登录功能组件 -->
-        <LoginForm v-if="currentTab == 0" />
+    <el-form-item class="form-item" prop="password">
+      <el-input v-model="form.password" placeholder="密码" type="password"></el-input>
+    </el-form-item>
 
-        <!-- 注册功能组件 -->
-        <RegisterForm v-if="currentTab == 1" />
-      </div>
-    </el-row>
-  </div>
+    <p class="form-text">
+      <nuxt-link to="#">忘记密码</nuxt-link>
+    </p>
+
+    <el-button class="submit" type="primary" @click="handleLoginSubmit">登录</el-button>
+  </el-form>
 </template>
 
 <script>
-import LoginForm from "@/components/user/loginForm";
-import RegisterForm from "@/components/user/registerForm";
-
 export default {
   data() {
     return {
-      currentTab: 1
+      // 表单数据
+      form: {
+        username: "", // 用户名
+        password: "" // 密码
+      },
+      // 表单规则
+      rules: {
+        username: [
+          { required: true, message: "用户名不能为空", trigger: "blur" }
+        ],
+        password: [{ required: true, message: "密码不能为空", trigger: "blur" }]
+      }
     };
   },
-  components: {
-    LoginForm,
-    RegisterForm
-  },
   methods: {
-    handleChangeTab(index) {
-      this.currentTab = index;
+    // 提交登录
+    handleLoginSubmit() {
+      this.$refs.form.validate(valid => {
+        console.log(valid);
+
+        if (valid) {
+          // 提交登录接口
+          this.$axios({
+            url: "/accounts/login",
+            method: "POST",
+            data: this.form
+          }).then(res => {
+            // mutations下的方法必须使用commit来调用
+            // 第一个参数是调用的方法名，第二个是数据
+            this.$store.commit("user/setUserInfo",res.data);
+            // 跳转到首页
+            this.$router.push("/")
+          });
+        }
+      });
     }
   }
 };
 </script>
 
 <style scoped lang="less">
-.container {
-  background: url(http://157.122.54.189:9095/assets/images/th03.jfif) center 0;
-  height: 700px;
-  min-width: 1000px;
+.form {
+  padding: 25px;
+}
 
-  .main {
-    width: 1000px;
-    height: 100%;
-    margin: 0 auto;
-    position: relative;
+.form-item {
+  margin-bottom: 20px;
+}
 
-    .form-wrapper {
-      width: 400px;
-      margin: 0 auto;
-      background: #fff;
-      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-      overflow: hidden;
+.form-text {
+  font-size: 12px;
+  color: #409eff;
+  text-align: right;
+  line-height: 1;
+}
 
-      .tabs {
-        span {
-          display: block;
-          width: 50%;
-          height: 50px;
-          box-sizing: border-box;
-          border-top: 2px #eee solid;
-          background: #eee;
-          line-height: 48px;
-          text-align: center;
-          cursor: pointer;
-          color: #666;
-
-          &.active {
-            color: orange;
-            border-top-color: orange;
-            background: #fff;
-            font-weight: bold;
-          }
-        }
-      }
-    }
-  }
+.submit {
+  width: 100%;
+  margin-top: 10px;
 }
 </style>

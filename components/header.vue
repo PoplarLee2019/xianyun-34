@@ -14,21 +14,22 @@
           <nuxt-link to="/air">国内机票</nuxt-link>
         </el-row>
         <!-- 登录注册 -->
-        <div v-if="false" class="login">
+        <div v-if="!$store.state.user.userInfo.token" class="login">
           <nuxt-link to="/user/login">登录</nuxt-link>
           <i>|</i>
-          <nuxt-link to="/accounts/register">注册</nuxt-link>
+          <nuxt-link to="/">注册</nuxt-link>
         </div>
         <!-- 登录后 -->
-        <div>
+        <div v-else>
           <el-dropdown>
             <span class="el-dropdown-link">
               <img src="http://157.122.54.189:9095/assets/images/avatar.jpg" alt />
                {{$store.state.user.userInfo.user.nickname}}
+              <i class="el-icon-arrow-down el-icon--right"></i> 
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人中心</el-dropdown-item>
-              <el-dropdown-item>退出</el-dropdown-item>
+              <el-dropdown-item @click.native="handleLogout">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -39,8 +40,13 @@
 <script>
 export default {
   mounted(){
-        console.log( this.$store.state.user.userInfo.user.nickname)
+        // console.log( this.$store.state.user.userInfo.user.nickname)
+    },
+  methods: {
+    handleLogout() {
+      this.$store.commit("user/clearUserInfo");
     }
+  }  
 };
 </script>
 <style lang="less" scoped>
